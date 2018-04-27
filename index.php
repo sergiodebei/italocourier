@@ -134,7 +134,7 @@ get_header(); ?>
                             </ul>
                             <div class="filetodownload">
                                 <p>Scarica il modulo di richiesta:</p>
-                                <a href="<?php bloginfo('template_url'); ?>/pdf/lettera_di_vettura.pdf" target="_blank" download>
+                                <a href="<?php bloginfo('template_url'); ?>/pdf/MODULO-ITALO-EXPRESS.doc" target="_blank" download>
                                     <i class="fa fa-file-pdf-o"></i>
                                     Modulo
                                 </a>
