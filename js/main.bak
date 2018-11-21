@@ -1,0 +1,193 @@
+$(document).ready(function() {
+
+    $(this).scrollTop(0);
+
+    // $(function() {
+    //     $('a[href*=#]:not([href=#])').click(function() {
+    //         if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+    //             var target = $(this.hash);
+    //             target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+    //             if (target.length) {
+    //                 $('html,body').stop().animate({
+    //                     scrollTop: target.offset().top - ($('nav').outerHeight() - 70)
+    //                 }, 1000);
+    //                 return false;
+    //             }
+    //         }
+    //     });
+    // });
+
+    // Select all links with hashes
+    $('a[href*="#"]')
+      // Remove links that don't actually link to anything
+        .not('[href="#"]')
+        .not('[href="#0"]')
+        .click(function(event) {
+        // On-page links
+        if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+            // Figure out element to scroll to
+            var target = $(this.hash);
+            target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+            // Does a scroll target exist?
+            if (target.length) {
+            // Only prevent default if animation is actually gonna happen
+                event.preventDefault();
+                $('html, body').animate({
+                    scrollTop: target.offset().top - ($('nav').outerHeight() - 70)
+                }, 1000, function() {
+                    // Callback after animation
+                    // Must change focus!
+                    var $target = $(target);
+                    $target.focus();
+                    if ($target.is(":focus")) { // Checking if the target was focused
+                        return false;
+                    } else {
+                        $target.attr('tabindex','-1'); // Adding tabindex for elements not focusable
+                        $target.focus(); // Set focus again
+                    };
+                });
+            }
+        }
+    });
+
+    //trailing spaces remover
+    // var abc = document.body.innerHTML;
+    // var a = String(abc).replace(/\u200B/g,'');
+    // document.body.innerHTML = a;
+
+/*   alert(templateUrl);*/
+
+function initMap() {
+  var myLatLng = {lat: 52.4297003, lng: 4.7191403};
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    scrollwheel: false,
+    scaleControl: false,
+    draggable: false,
+    center: myLatLng,
+    zoom: 12,
+    disableDefaultUI: true,
+    styles: [{
+        "featureType": "administrative",
+        "elementType": "labels.text.fill",
+        "stylers": [{
+            "color": "#444444"
+        }]
+    }, {
+        "featureType": "landscape",
+        "elementType": "all",
+        "stylers": [{
+            "color": "#f3f3ee"
+        }]
+    }, {
+        "featureType": "poi",
+        "elementType": "all",
+        "stylers": [{
+            "visibility": "off"
+        }]
+    }, {
+        "featureType": "road",
+        "elementType": "all",
+        "stylers": [{
+            "saturation": -100
+        }, {
+            "lightness": 45
+        }]
+    }, {
+        "featureType": "road.highway",
+        "elementType": "all",
+        "stylers": [{
+            "visibility": "simplified"
+        }]
+    }, {
+        "featureType": "road.arterial",
+        "elementType": "labels.icon",
+        "stylers": [{
+            "visibility": "off"
+        }]
+    }, {
+        "featureType": "transit",
+        "elementType": "all",
+        "stylers": [{
+            "visibility": "off"
+        }]
+    }, {
+        "featureType": "water",
+        "elementType": "all",
+        "stylers": [{
+            "color": "#1a8bcb"
+        }, {
+            "visibility": "on"
+        }]
+    }, {
+        "featureType": "water",
+        "elementType": "labels.text.fill",
+        "stylers": [{
+            "color": "#ffffff"
+        }]
+    }]
+  });
+
+  marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        title: 'Click for info',
+/*        animation: google.maps.Animation.DROP,*/
+        icon: {
+            url: templateUrl + '/img/map_icon.png',
+            anchor: new google.maps.Point(75,50),
+            size: new google.maps.Size(130,100)
+        }
+
+      });
+
+  google.maps.event.addListener(map, 'zoom_changed', function() {
+    marker.setIcon(icon);
+  });
+
+  google.maps.event.addDomListener(window, "resize", function() {
+      var center = map.getCenter();
+      google.maps.event.trigger(map, "resize");
+      map.setCenter(center);
+  });
+
+    var popup = new google.maps.InfoWindow({
+        content: '<h1><strong>IItalo Express Courier</strong></h1><br />Heiligeweg 5 <br />PRO Store Amsterdam <br />1012 XN Amsterdam<br />Netherlands',
+        maxWidth: 300
+    });
+    google.maps.event.addListener(marker, "click", function() {
+        console.log('click');
+        popup.open(map, marker);
+    });
+    google.maps.event.addListener(popup, "closeclick", function() {
+      //  map.panTo(center);
+    });
+
+}
+
+initMap();
+
+    $('.toggle_menu').click(function() {
+        // console.log('click');
+        $(this).toggleClass('active');
+        $('.magic').toggleClass('active');
+    });
+
+    $('.nav-item > a').click(function() {
+        // console.log('remove');
+        $('.magic').removeClass('active');
+    });
+
+});
+
+$(window).scroll(function(){
+    if($(this).scrollTop() > 200) {
+        $(".auto-scroll-to-top").addClass("visible");
+    } else {
+        $(".auto-scroll-to-top").removeClass("visible");
+    }
+});
+
+ $(".auto-scroll-to-top").click(function(){
+    $("html, body").animate({scrollTop: 0}, 600);
+});
