@@ -20,6 +20,8 @@
         <link rel="icon" href="<?php bloginfo('template_url'); ?>/favicon.ico" type="image/x-icon"/>
 <!--         <link rel="icon" type="image/png" href="./favicon.png" /> -->
 
+        <?php include( 'views/partials/gtm.php' ); ?>
+
         <script type="text/javascript">
             var templateUrl = '<?= get_bloginfo("template_url"); ?>';
         </script>
@@ -28,3 +30,5 @@
 
     </head>
 <body>
+
+<?php include( 'views/partials/gtm_noscript.php' ); ?>
